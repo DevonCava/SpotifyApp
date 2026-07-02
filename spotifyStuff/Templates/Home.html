@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Spotify Stats</title>
+	<style>
+		:root {
+			color-scheme: dark;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+			color: #ffffff;
+		}
+
+		.hero {
+			max-width: 720px;
+			padding: 48px 32px;
+			text-align: center;
+			border-radius: 24px;
+			background: rgba(255, 255, 255, 0.04);
+			box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+			backdrop-filter: blur(8px);
+		}
+
+		h1 {
+			margin: 0 0 16px;
+			font-size: clamp(2.2rem, 5vw, 4rem);
+		}
+
+		p {
+			margin: 0 auto 32px;
+			max-width: 56ch;
+			line-height: 1.6;
+			color: #d1d1d1;
+			font-size: 1.05rem;
+		}
+
+		.cta {
+			display: inline-block;
+			padding: 16px 28px;
+			border-radius: 999px;
+			background: #1db954;
+			color: #ffffff;
+			text-decoration: none;
+			font-weight: 700;
+			font-size: 1rem;
+			transition: transform 0.2s ease, background 0.2s ease;
+		}
+
+		.cta:hover {
+			background: #1ed760;
+			transform: translateY(-2px);
+		}
+
+		.note {
+			margin-top: 16px;
+			font-size: 0.92rem;
+			color: #a8a8a8;
+		}
+	</style>
+</head>
+<body>
+	<main class="hero">
+		<h1>Spotify Listening Stats</h1>
+		<p>
+			Connect your Spotify account to see a personalized dashboard with your top artists,
+			listening time, and other streaming insights. This homepage is the starting point for
+			authorizing access to your data.
+		</p>
+		<a class="cta" href="#" aria-label="Sign in with Spotify">
+			Sign in with Spotify
+		</a>
+		<div class="note">Placeholder button for the future Spotify authorization flow.</div>
+	</main>
+</body>
+</html>
+
