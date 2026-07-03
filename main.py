@@ -16,7 +16,7 @@ load_dotenv()
 client_id_env = os.getenv("CLIENTID")
 client_secret_env = os.getenv("CLIENTSECRET")
 
-REDIRECT_PORT = 8000
+REDIRECT_PORT = 8080
 REDIRECT_PATH = "/callback"
 REDIRECT_URI = f"http://127.0.0.1:{REDIRECT_PORT}{REDIRECT_PATH}"
 
@@ -119,7 +119,7 @@ def authorize_user(
     webbrowser.open_new_tab(auth_url)
 
     # Wait for the auth code (with a reasonable timeout)
-    timeout = 30
+    timeout = 10
     poll_interval = 0.5
     waited = 0.0
     while waited < timeout and httpd.auth_code is None:
@@ -159,6 +159,6 @@ def authorize_user(
     return auth_user
 
 
-SpotifyAuth = AuthUser(client_id_env, client_secret_env)
-authorize_user(SpotifyAuth)
-get_top_artists(SpotifyAuth)
+#SpotifyAuth = AuthUser(client_id_env, client_secret_env)
+#authorize_user(SpotifyAuth)
+#get_top_artists(SpotifyAuth)

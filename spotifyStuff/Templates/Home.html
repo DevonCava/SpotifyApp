@@ -60,11 +60,6 @@
 			transform: translateY(-2px);
 		}
 
-		.note {
-			margin-top: 16px;
-			font-size: 0.92rem;
-			color: #a8a8a8;
-		}
 	</style>
 </head>
 <body>
@@ -75,10 +70,13 @@
 			listening time, and other streaming insights. This homepage is the starting point for
 			authorizing access to your data.
 		</p>
-		<a class="cta" href="#" aria-label="Sign in with Spotify">
+        <form action="/" method="post">
+            {% csrf_token %}
+            <button class="cta" type="submit" aria-label="Sign in with Spotify">
 			Sign in with Spotify
-		</a>
-		<div class="note">Placeholder button for the future Spotify authorization flow.</div>
+		</button>
+        </form>
+        <p> {{message}}</p>
 	</main>
 </body>
 </html>
