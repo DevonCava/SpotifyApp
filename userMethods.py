@@ -13,6 +13,9 @@ REDIRECT_PORT = 8080
 REDIRECT_PATH = "/callback"
 REDIRECT_URI = f"http://127.0.0.1:{REDIRECT_PORT}{REDIRECT_PATH}"
 
+#--Authorizes user utilizing spotify's OAuth2.0 flow and returns a Spotify client object if successful,
+#   otherwise returns None.
+# This method runs before any other methods in order to ensure the "authedUser" object is initialized
 def authorize_user() -> Optional[spotipy.client.Spotify]:
     scope = 'user-top-read'
     username = "Devon." #Adjust so that this is inputted by user on django page
@@ -36,20 +39,19 @@ def authorize_user() -> Optional[spotipy.client.Spotify]:
     print("Error: Could not retrieve token.")
     return None
 
+authedUser = authorize_user()
 
 def get_me():
-    sp = authorize_user()
-    if sp is None:
+    if authedUser is None:
         return
-    user = sp.current_user()
+    user = authedUser.current_user()
     print(user["display_name"])
 
 
 def get_top_artists():
-    sp = authorize_user()
-    if sp is None:
+    if authedUser is None:
         return
-    userTracks = sp.current_user_top_tracks()
+    userTracks = authedUser.current_user_top_tracks()
     for item in userTracks["items"]:
         print(item["name"] + "\nArtist:" + item["artists"][0]["name"] + "\n")
 
