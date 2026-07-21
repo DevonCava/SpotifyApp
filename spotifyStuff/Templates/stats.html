@@ -27,6 +27,7 @@
             background: rgba(255, 255, 255, 0.04);
             box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(8px);
+            overflow-wrap: break-word;
         }
 
         .user-title {
@@ -54,12 +55,6 @@
             transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .stat-card:hover {
-            transform: translateY(-6px);
-            background: rgba(29, 185, 84, 0.12);
-            border-color: rgba(30, 215, 96, 0.7);
-            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
-        }
 
         .stat-card h2 {
             margin: 0 0 10px;
@@ -73,7 +68,7 @@
             font-size: 0.95rem;
         }
 
-        .placeholder {
+        .spotifyData {
             font-size: 0.95rem;
             color: #1ed760;
             font-weight: 700;
@@ -99,7 +94,7 @@
 </head>
 <body>
     <main class="hero">
-        <h1 class="user-title">{{ user_name }}'s Stats</h1>
+        <h1 class="user-title">{{ user_name }}'s<br>Stats</h1>
         <p class="subtitle">
             These are placeholders for your Spotify statistics. Click <strong>View</strong> on any card
             to eventually open a more detailed breakdown for that category.
@@ -110,7 +105,7 @@
                 <article class="stat-card">
                     <h2>{{ card.title }}</h2>
                     <p>{{ card.description }}</p>
-                    <div class="placeholder">{{ card.placeholder }}</div>
+                    <div class="spotifyData">{{ card.spotifyData }}</div>
                     <button class="view-button" type="button">View</button>
                 </article>
             {% endfor %}

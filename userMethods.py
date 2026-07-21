@@ -43,15 +43,23 @@ authedUser = authorize_user()
 
 def get_me():
     if authedUser is None:
-        return
+        return None
     user = authedUser.current_user()
-    print(user["display_name"])
+    return user["display_name"]
 
 
-def get_top_artists():
+def get_top_tracks():
     if authedUser is None:
         return
     userTracks = authedUser.current_user_top_tracks()
     for item in userTracks["items"]:
         print(item["name"] + "\nArtist:" + item["artists"][0]["name"] + "\n")
+
+def get_top_artists():
+    if authedUser is None:
+        return
+    topArtists = authedUser.current_user_top_artists(limit=5, offset=0, time_range="long_term")
+    for item in topArtists["items"]:
+        print(item["name"])
+get_top_artists()
 
