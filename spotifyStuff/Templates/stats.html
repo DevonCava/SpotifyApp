@@ -72,8 +72,14 @@
             font-size: 0.95rem;
             color: #1ed760;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
+
+        .spotifyData a {
+            color: #1fc65a;
+            text-decoration: none;
+        }
+
 
         .view-button {
             border: 0;
@@ -105,7 +111,12 @@
                 <article class="stat-card">
                     <h2>{{ card.title }}</h2>
                     <p>{{ card.description }}</p>
-                    <div class="spotifyData">{{ card.spotifyData }}</div>
+                    {% for item in card.spotifyData %}
+                        <div class="spotifyData">
+                            {{ forloop.counter }}. <a href="{{ item.url }}">{{ item.name }}</a>
+                        </div>
+                        <hr>
+                    {% endfor %}
                     <button class="view-button" type="button">View</button>
                 </article>
             {% endfor %}

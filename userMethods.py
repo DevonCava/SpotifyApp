@@ -48,18 +48,35 @@ def get_me():
     return user["display_name"]
 
 
-def get_top_tracks():
+def get_top5_tracks():
     if authedUser is None:
-        return
-    userTracks = authedUser.current_user_top_tracks()
+        return None
+    trackLists = []
+    trackLinks = []
+    userTracks = authedUser.current_user_top_tracks(limit=5, offset=0, time_range="long_term")
     for item in userTracks["items"]:
-        print(item["name"] + "\nArtist:" + item["artists"][0]["name"] + "\n")
+        trackLists.append(item["name"])
+        trackLinks.append(item["external_urls"]["spotify"])
+    track_cards = [
+        {"name": name, "url": url}
+        for name, url in zip(trackLists, trackLinks)
+    ]
+    return track_cards
 
-def get_top_artists():
+def get_top5_artists():
     if authedUser is None:
-        return
+        return None
+    artistLists = []
+    artistLinks = []
     topArtists = authedUser.current_user_top_artists(limit=5, offset=0, time_range="long_term")
     for item in topArtists["items"]:
-        print(item["name"])
-get_top_artists()
+        artistLists.append(item["name"])
+        artistLinks.append(item["external_urls"]["spotify"])
+    artist_cards = [
+        {"name": name, "url": url}
+        for name, url in zip(artistLists, artistLinks)
+    ]
+    return artist_cards
+
+print(get_top5_tracks())
 
