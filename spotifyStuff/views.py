@@ -10,24 +10,36 @@ def index(request):
 
 
 def statsPage(request):
-
-    top5_artists = get_top5_artists()
-    top5_tracks = get_top5_tracks()
 #'spotifyData' is looped through via django, and must be input as a list
+#Term_duration value must follow spotify API usage guide.
+#Options for term duration are: 'long'(Year), 'medium'(6 months), 'short'(1 month)
     stat_cards = [
         {
-            "title": "Top 5 Artists",
-            "description": "Your current favorite artists will appear here.",
-            "spotifyData": top5_artists,
+            "title": "Top 5 Artists: Past Month",
+            "spotifyData": get_top5_tracks(term_duration="short"),
+        },
+{
+            "title": "Top 5 Artists: Past 6 Months",
+            "spotifyData": get_top5_tracks(term_duration="medium"),
+        },
+{
+            "title": "Top 5 Artists: Past Year",
+            "spotifyData": get_top5_tracks(term_duration="long"),
         },
         {
-            "title": "Top 5 Tracks",
-            "description": "Your most played songs will appear here.",
-            "spotifyData": top5_tracks,
+            "title": "Top 5 Tracks: Past Month",
+            "spotifyData": get_top5_artists(term_duration="short"),
+        },
+{
+            "title": "Top 5 Tracks: Past 6 Months",
+            "spotifyData": get_top5_artists(term_duration="medium"),
+        },
+{
+            "title": "Top 5 Tracks: Past Year",
+            "spotifyData": get_top5_artists(term_duration="long"),
         },
         {
             "title": "Top Genres",
-            "description": "Your most played genres will appear here.",
             "spotifyData": [{"name": "Data Placeholder", "url": "http://127.0.0.1:8000/myStats/"}],
         },
     ]

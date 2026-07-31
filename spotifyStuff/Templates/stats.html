@@ -43,7 +43,7 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 18px;
         }
 
@@ -101,16 +101,17 @@
 <body>
     <main class="hero">
         <h1 class="user-title">{{ user_name }}'s<br>Stats</h1>
-        <p class="subtitle">
-            These are placeholders for your Spotify statistics. Click <strong>View</strong> on any card
-            to eventually open a more detailed breakdown for that category.
+        <h2> Where is my listening time?</h2>
+        <p class="subtitle">Spotify currently does not make user listening time accessible through their API.
+        Any approach to get your listening time would require us to <strong>store and track</strong>
+        your account login information, and listening habits. For your information's safety,
+            we do not store any of your data.
         </p>
 
         <section class="stats-grid" aria-label="User statistics">
             {% for card in stat_cards %}
                 <article class="stat-card">
                     <h2>{{ card.title }}</h2>
-                    <p>{{ card.description }}</p>
                     {% for item in card.spotifyData %}
                         <div class="spotifyData">
                             {{ forloop.counter }}. <a href="{{ item.url }}">{{ item.name }}</a>
