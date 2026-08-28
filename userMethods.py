@@ -51,31 +51,38 @@ def get_me():
 def get_top5_tracks(term_duration):
     if authedUser is None:
         return None
-    trackLists = []
-    trackLinks = []
     userTracks = authedUser.current_user_top_tracks(limit=5, offset=0, time_range=f"{term_duration}_term")
+    track_cards = []
     for item in userTracks["items"]:
-        trackLists.append(item["name"] + " - " + item["artists"][0]["name"])
-        trackLinks.append(item["external_urls"]["spotify"])
-    track_cards = [
-        {"name": name, "url": url}
-        for name, url in zip(trackLists, trackLinks)
-    ]
+        album_images = item.get("album", {}).get("images", [])
+        cover_art_url = album_images[0]["url"] if album_images else ""
+        track_title = item["name"]
+        track_artist = item["artists"][0]["name"]
+        track_cards.append(
+            {
+                "name": track_title,
+                "track_title": track_title,
+                "artist_name": track_artist,
+                "url": item["external_urls"]["spotify"],
+                "image_url": cover_art_url,
+            }
+        )
     return track_cards
 
 def get_top5_artists(term_duration):
     if authedUser is None:
         return None
-    artistLists = []
-    artistLinks = []
     topArtists = authedUser.current_user_top_artists(limit=5, offset=0, time_range=f"{term_duration}_term")
+    artist_cards = []
     for item in topArtists["items"]:
-        artistLists.append(item["name"])
-        artistLinks.append(item["external_urls"]["spotify"])
-    artist_cards = [
-        {"name": name, "url": url}
-        for name, url in zip(artistLists, artistLinks)
-    ]
+        artist_images = item.get("images", [])
+        artist_cards.append(
+            {
+                "name": item["name"],
+                "url": item["external_urls"]["spotify"],
+                "image_url": artist_images[0]["url"] if artist_images else "",
+            }
+        )
     return artist_cards
 
 

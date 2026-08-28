@@ -16,27 +16,27 @@ def statsPage(request):
     stat_cards = [
         {
             "title": "Top 5 Artists: Past Month",
-            "spotifyData": get_top5_tracks(term_duration="short"),
-        },
-{
-            "title": "Top 5 Artists: Past 6 Months",
-            "spotifyData": get_top5_tracks(term_duration="medium"),
-        },
-{
-            "title": "Top 5 Artists: Past Year",
-            "spotifyData": get_top5_tracks(term_duration="long"),
-        },
-        {
-            "title": "Top 5 Tracks: Past Month",
             "spotifyData": get_top5_artists(term_duration="short"),
         },
 {
-            "title": "Top 5 Tracks: Past 6 Months",
+            "title": "Top 5 Artists: Past 6 Months",
             "spotifyData": get_top5_artists(term_duration="medium"),
         },
 {
-            "title": "Top 5 Tracks: Past Year",
+            "title": "Top 5 Artists: Past Year",
             "spotifyData": get_top5_artists(term_duration="long"),
+        },
+        {
+            "title": "Top 5 Tracks: Past Month",
+            "spotifyData": get_top5_tracks(term_duration="short"),
+        },
+{
+            "title": "Top 5 Tracks: Past 6 Months",
+            "spotifyData": get_top5_tracks(term_duration="medium"),
+        },
+{
+            "title": "Top 5 Tracks: Past Year",
+            "spotifyData": get_top5_tracks(term_duration="long"),
         },
         {
             "title": "Top Genres",
