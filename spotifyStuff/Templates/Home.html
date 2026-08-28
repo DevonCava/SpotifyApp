@@ -72,9 +72,15 @@
 		</p>
         <form action="/" method="post">
             {% csrf_token %}
-            <button class="cta" type="submit" aria-label="Sign in with Spotify">
+            <button class="cta" type="submit" id="signInButton" aria-label="Sign in with Spotify">
 			Sign in with Spotify
 		</button>
+            <script>
+                const signInButton = document.getElementById('signInButton');
+                signInButton.addEventListener('click', function(){
+                    this.textContent = 'Getting your stats...';
+                });
+            </script>
         </form>
         <p> {{message}}</p>
 	</main>

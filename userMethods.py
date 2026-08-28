@@ -4,6 +4,7 @@ import spotipy
 from pathlib import Path
 from spotipy.oauth2 import SpotifyOAuth
 from typing import Optional
+from collections import Counter
 
 load_dotenv()
 client_id_env = os.getenv("CLIENTID")
@@ -77,5 +78,3 @@ def get_top5_artists(term_duration):
         for name, url in zip(artistLists, artistLinks)
     ]
     return artist_cards
-
-
