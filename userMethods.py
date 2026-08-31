@@ -48,10 +48,10 @@ def get_me():
     return user["display_name"]
 
 
-def get_top5_tracks(term_duration):
+def get_top_tracks(term_duration, num_records):
     if authedUser is None:
         return None
-    userTracks = authedUser.current_user_top_tracks(limit=5, offset=0, time_range=f"{term_duration}_term")
+    userTracks = authedUser.current_user_top_tracks(limit=f"{num_records}", offset=0, time_range=f"{term_duration}_term")
     track_cards = []
     for item in userTracks["items"]:
         album_images = item.get("album", {}).get("images", [])
@@ -69,10 +69,10 @@ def get_top5_tracks(term_duration):
         )
     return track_cards
 
-def get_top5_artists(term_duration):
+def get_top_artists(term_duration, num_records):
     if authedUser is None:
         return None
-    topArtists = authedUser.current_user_top_artists(limit=5, offset=0, time_range=f"{term_duration}_term")
+    topArtists = authedUser.current_user_top_artists(limit=f"{num_records}", offset=0, time_range=f"{term_duration}_term")
     artist_cards = []
     for item in topArtists["items"]:
         artist_images = item.get("images", [])
