@@ -46,10 +46,6 @@ def statsPage(request):
             "spotifyData": get_top_tracks(term_duration="long", num_records=5),
             "top50_url": reverse("top50", kwargs={"item_type": "tracks", "term_duration": "long"}),
         },
-        {
-            "title": "Top Genres",
-            "spotifyData": [{"name": "Data Placeholder", "url": "http://127.0.0.1:8000/myStats/"}],
-        },
     ]
 
     userName = get_me()

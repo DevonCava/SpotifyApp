@@ -73,6 +73,14 @@
             font-weight: 700;
         }
 
+        .eyebrow-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 0 0 8px;
+        }
+
         h1 {
             margin: 0 0 14px;
             font-size: clamp(2.2rem, 5vw, 3.8rem);
@@ -83,6 +91,14 @@
             display: flex;
             justify-content: flex-end;
             margin: 0 0 20px;
+        }
+
+        .header-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
         }
 
         .display-toggle-wrap {
@@ -117,59 +133,78 @@
             transform: translateY(-1px);
         }
 
+        .home-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            text-decoration: none;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+        }
+
+        .home-button:hover {
+            background: rgba(29, 185, 84, 0.2);
+            border-color: rgba(29, 185, 84, 0.65);
+            color: #65e28a;
+            transform: translateY(-1px);
+        }
+
+        .home-button-icon {
+            width: 32px;
+            height: 32px;
+            display: block;
+        }
+
         .display-toggle-icon {
             display: inline-flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
             gap: 4px;
-            width: 18px;
+            width: 30px;
         }
 
         .display-toggle-bar {
             display: block;
-            width: 16px;
-            height: 2px;
+            width: 2px;
+            height: 16px;
             border-radius: 999px;
             background: currentColor;
         }
 
-        .display-toggle.grid-mode .display-toggle-bar.mid,
-        .display-toggle.grid-mode .display-toggle-bar.bot {
-            opacity: 0;
-        }
-
-        .display-toggle.list-mode .display-toggle-bar.mid,
-        .display-toggle.list-mode .display-toggle-bar.bot {
+        .display-toggle.grid-mode .display-toggle-bar {
             opacity: 1;
         }
 
-        .subtitle {
-            margin: 0 0 30px;
-            max-width: 70ch;
-            line-height: 1.6;
-            color: #d1d1d1;
-            font-size: 1.02rem;
+        .display-toggle.compact-mode .display-toggle-bar:nth-child(1),
+        .display-toggle.compact-mode .display-toggle-bar:nth-child(5) {
+            opacity: 0;
         }
+
 
         .top50-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
-            grid-auto-rows: minmax(180px, auto);
+            grid-auto-rows: minmax(150px, auto);
             gap: 16px;
             align-items: stretch;
         }
 
-        .top50-grid.is-list-view {
-            grid-template-columns: 1fr;
-            grid-auto-rows: minmax(120px, auto);
+        .top50-grid.is-compact-view {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-auto-rows: minmax(160px, auto);
         }
 
         .top50-card {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 14px;
             padding: 18px;
             border-radius: 18px;
             background: linear-gradient(180deg, rgba(11, 15, 21, 0.94) 0%, rgba(8, 10, 16, 0.98) 100%);
@@ -218,7 +253,7 @@
         }
 
         .item-title {
-            color: #ffffff;
+            color: #1fc65a;
             text-decoration: none;
             font-size: 1.1rem;
             font-weight: 700;
@@ -238,15 +273,6 @@
             font-weight: 600;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        .item-meta {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            align-items: center;
-            color: rgba(255, 255, 255, 0.56);
-            font-size: 0.84rem;
         }
 
         .empty-state {
@@ -295,29 +321,44 @@
 </head>
 <body>
     <main class="hero">
-        <p class="eyebrow">Top 50 Preview</p>
+        <div class="eyebrow-row">
+            <p class="eyebrow">Top 50 Preview</p>
+            <a class="home-button" href="{% url 'stats' %}" aria-label="Home" title="Home">
+                <svg class="home-button-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 10.5L12 3l9 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5.5 10V21h13V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.5 21v-6h5v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </div>
         <h1>{{ top50_title|default:"Your Top 50" }}</h1>
+        <hr>
 
         <div class="grid-header">
-            <div class="display-toggle-wrap">
-                <span class="display-toggle-label">Switch display format</span>
-                <button
-                    id="displayFormatToggle"
-                    class="display-toggle grid-mode"
-                    type="button"
-                    aria-label="Currently grid format. Switch to list format."
-                    aria-pressed="false"
-                >
-                    <span class="display-toggle-icon" aria-hidden="true">
-                        <span class="display-toggle-bar top"></span>
-                        <span class="display-toggle-bar mid"></span>
-                        <span class="display-toggle-bar bot"></span>
-                    </span>
-                </button>
+            <div class="header-actions">
+
+                <div class="display-toggle-wrap">
+                    <span class="display-toggle-label">Grid layout</span>
+                    <button
+                        id="displayFormatToggle"
+                        class="display-toggle grid-mode"
+                        type="button"
+                        aria-label="Switch to 3-column layout"
+                        aria-pressed="false"
+                    >
+                        <span class="display-toggle-icon" aria-hidden="true">
+                            <span class="display-toggle-bar"></span>
+                            <span class="display-toggle-bar"></span>
+                            <span class="display-toggle-bar"></span>
+                            <span class="display-toggle-bar"></span>
+                            <span class="display-toggle-bar"></span>
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <section id="top50Grid" class="top50-grid" aria-label="Top 50 list">
+            <section id="top50Grid" class="top50-grid" aria-label="Top 50 list">
             {% for item in top50_items %}
                 <article class="top50-card">
                     <div>
@@ -365,7 +406,7 @@
                 <div class="empty-state">
                     This placeholder page is ready for a future Top 50 data list.
                     Once the view sends <code>top50_items</code>, the grid will automatically render
-                    tracks or artists in a 5-column layout.
+                    tracks or artists in a 3-column layout when compact view is enabled.
                 </div>
             {% endfor %}
         </section>
@@ -381,16 +422,16 @@
             }
 
             toggle.addEventListener("click", function () {
-                const isListView = grid.classList.toggle("is-list-view");
+                const isCompactView = grid.classList.toggle("is-compact-view");
 
-                toggle.classList.toggle("list-mode", isListView);
-                toggle.classList.toggle("grid-mode", !isListView);
-                toggle.setAttribute("aria-pressed", isListView ? "true" : "false");
+                toggle.classList.toggle("compact-mode", isCompactView);
+                toggle.classList.toggle("grid-mode", !isCompactView);
+                toggle.setAttribute("aria-pressed", isCompactView ? "true" : "false");
                 toggle.setAttribute(
                     "aria-label",
-                    isListView
-                        ? "Currently list format. Switch to grid format."
-                        : "Currently grid format. Switch to list format."
+                    isCompactView
+                        ? "Switch to 5-column layout"
+                        : "Switch to 3-column layout"
                 );
             });
         })();
