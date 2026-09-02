@@ -13,24 +13,41 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 load_dotenv()
-secret_key = os.getenv("SECRET_KEY")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# Helper to parse boolean-like environment values
+def env_bool(name, default=False):
+    val = os.getenv(name)
+    if val is None:
+        return default
+    return str(val).lower() in ("1", "true", "yes", "on")
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY: SECRET_KEY must be provided via environment in production
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    # allow an explicit opt-in dev fallback, but fail loudly otherwise
+    if env_bool("ALLOW_DEVELOPMENT_FALLBACK", False):
+        SECRET_KEY = "dev-placeholder-secret-change-me"
+    else:
+        raise ImproperlyConfigured("Missing SECRET_KEY environment variable. Set SECRET_KEY for production.")
 
-ALLOWED_HOSTS = []
+# DEBUG should be controlled by environment and default to False for safety
+DEBUG = env_bool("DEBUG", False)
+
+# ALLOWED_HOSTS should be set in environment as a comma-separated list
+allowed = os.getenv("ALLOWED_HOSTS", "")
+if allowed:
+    ALLOWED_HOSTS = [h.strip() for h in allowed.split(",") if h.strip()]
+else:
+    # keep localhost defaults for local dev convenience; in production set ALLOWED_HOSTS explicitly
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -47,6 +64,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    # WhiteNoise allows Django to serve its own static files in production
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -116,6 +135,63 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+# Where `collectstatic` will collect static files for production
+STATIC_ROOT = BASE_DIR / "staticfiles"
+# Use WhiteNoise compressed manifest storage when deployed (safe fallback for simpler deployments)
+STATICFILES_STORAGE = os.getenv(
+    "STATICFILES_STORAGE",
+    "whitenoise.storage.CompressedManifestStaticFilesStorage",
+)
+
+# Production security defaults: when DEBUG is False we enable stricter settings
+if not DEBUG:
+    # Redirect HTTP to HTTPS
+    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
+    SESSION_COOKIE_SECURE = env_bool("SESSION_COOKIE_SECURE", True)
+    CSRF_COOKIE_SECURE = env_bool("CSRF_COOKIE_SECURE", True)
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = False
+
+    # HSTS settings — start small and raise once validated
+    SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", "60"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool("SECURE_HSTS_INCLUDE_SUBDOMAINS", True)
+    SECURE_HSTS_PRELOAD = env_bool("SECURE_HSTS_PRELOAD", False)
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = os.getenv("X_FRAME_OPTIONS", "DENY")
+else:
+    # Development-safe defaults
+    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", False)
+    SESSION_COOKIE_SECURE = env_bool("SESSION_COOKIE_SECURE", False)
+    CSRF_COOKIE_SECURE = env_bool("CSRF_COOKIE_SECURE", False)
+
+# If your deployment sits behind a reverse proxy that sets X-Forwarded-Proto
+SECURE_PROXY_SSL_HEADER = tuple(os.getenv("SECURE_PROXY_SSL_HEADER", "").split(",")) if os.getenv("SECURE_PROXY_SSL_HEADER") else ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Trusted origins for CSRF (comma-separated, must include scheme in Django 4+)
+cs = os.getenv("CSRF_TRUSTED_ORIGINS", "")
+if cs:
+    CSRF_TRUSTED_ORIGINS = [c.strip() for c in cs.split(",") if c.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = []
+
+# Admins and logging
+ADMINS = [(os.getenv("ADMIN_NAME", "Admin"), os.getenv("ADMIN_EMAIL", "admin@example.com"))]
+SERVER_EMAIL = os.getenv("SERVER_EMAIL", os.getenv("ADMIN_EMAIL", "server@example.com"))
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"class": "logging.StreamHandler"},
+        "mail_admins": {"class": "django.utils.log.AdminEmailHandler"},
+    },
+    "root": {"handlers": ["console"], "level": "WARNING"},
+    "loggers": {
+        "django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": False},
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
