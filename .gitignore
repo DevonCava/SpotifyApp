@@ -1,4 +1,5 @@
 .env
+Ai-Conversations/
 Replacements.txt
 TokenCaches/*
 !TokenCaches/.gitkeep

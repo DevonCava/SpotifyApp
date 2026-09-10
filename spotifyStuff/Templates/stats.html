@@ -11,22 +11,57 @@
         }
 
         body {
+              position: relative;
             margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+              overflow-x: hidden;
+              background:
+                radial-gradient(circle at 12% 12%, rgba(16, 185, 129, 0.16), transparent 26%),
+                radial-gradient(circle at 88% 18%, rgba(14, 165, 233, 0.14), transparent 24%),
+                radial-gradient(circle at 50% 92%, rgba(168, 85, 247, 0.12), transparent 28%),
+                linear-gradient(135deg, #08090c 0%, #10131a 38%, #171824 70%, #0b1118 100%);
             color: #ffffff;
             padding: 48px 24px;
             box-sizing: border-box;
         }
 
+            body::before,
+            body::after {
+              content: '';
+              position: fixed;
+              border-radius: 999px;
+              filter: blur(34px);
+              pointer-events: none;
+              opacity: 0.75;
+            }
+
+            body::before {
+              top: 6%;
+              left: -6%;
+              width: 30rem;
+              height: 30rem;
+              background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0) 70%);
+            }
+
+            body::after {
+              right: -8%;
+                      bottom: 0;
+              width: 34rem;
+              height: 34rem;
+              background: radial-gradient(circle, rgba(16, 185, 129, 0.16) 0%, rgba(16, 185, 129, 0) 72%);
+            }
+
         .hero {
+              position: relative;
+              z-index: 1;
             max-width: 1040px;
             margin: 0 auto;
-            padding: 40px 32px;
+              padding: 52px 40px;
             border-radius: 24px;
-            background: rgba(255, 255, 255, 0.04);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(8px);
+              background: linear-gradient(180deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0.038) 100%);
+              border: 1px solid rgba(255, 255, 255, 0.08);
+              box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
+              backdrop-filter: blur(12px);
             overflow-wrap: break-word;
         }
 
@@ -48,18 +83,30 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
+              background: linear-gradient(180deg, rgba(11, 15, 21, 0.92) 0%, rgba(8, 10, 16, 0.96) 100%);
+              border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
             padding: 20px;
-            transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+              transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
         }
+
+            .stat-card:hover {
+              transform: translateY(-2px);
+              border-color: rgba(29, 185, 84, 0.8);
+              box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 20px 40px rgba(0, 0, 0, 0.34);
+            }
 
 
         .stat-card h2 {
             margin: 0 0 10px;
             font-size: 1.15rem;
         }
+
+            hr {
+              border: 0;
+              border-top: 1px solid rgba(255, 255, 255, 0.08);
+              margin: 12px 0;
+            }
 
         .stat-card p {
             margin: 0 0 10px;
@@ -72,16 +119,69 @@
             font-size: 0.95rem;
             color: #1ed760;
             font-weight: 700;
-            margin-bottom: 8px;
+              margin-bottom: 8px;
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              padding: 10px 12px;
+              border-radius: 14px;
+              background: rgba(255, 255, 255, 0.03);
+              border: 1px solid rgba(255, 255, 255, 0.04);
         }
+
+            .track-index {
+                flex: 0 0 auto;
+                min-width: 1.5rem;
+                text-align: right;
+                color: rgba(255, 255, 255, 0.78);
+                font-variant-numeric: tabular-nums;
+            }
 
         .spotifyData a {
             color: #1fc65a;
             text-decoration: none;
+              transition: color 0.2s ease;
+            }
+
+            .spotifyData a:hover {
+              color: #65e28a;
+            }
+
+            .cover-art {
+                width: 48px;
+                height: 48px;
+                border-radius: 12px;
+                object-fit: cover;
+                flex: 0 0 auto;
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+              .track-info {
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                gap: 2px;
+              }
+
+            .spotify-track-title {
+                display: block;
+                font-size: 1.02rem;
+                line-height: 1.25;
+                font-weight: 700;
+            }
+
+              .spotify-track-artist {
+                display: block;
+                font-size: 0.86rem;
+                line-height: 1.2;
+                color: rgba(255, 255, 255, 0.62);
+                font-weight: 600;
         }
 
 
         .view-button {
+            display: inline-block;
             border: 0;
             border-radius: 999px;
             background: #1db954;
@@ -89,6 +189,7 @@
             font-weight: 700;
             padding: 10px 18px;
             cursor: pointer;
+            text-decoration: none;
             transition: transform 0.2s ease, background 0.2s ease;
         }
 
@@ -101,12 +202,6 @@
 <body>
     <main class="hero">
         <h1 class="user-title">{{ user_name }}'s<br>Stats</h1>
-        <h2> Where is my listening time?</h2>
-        <p class="subtitle">Spotify currently does not make user listening time accessible through their API.
-        Any approach to get your listening time would require us to <strong>store and track</strong>
-        your account login information, and listening habits. For your information's safety,
-            we do not store any of your data.
-        </p>
 
         <section class="stats-grid" aria-label="User statistics">
             {% for card in stat_cards %}
@@ -114,14 +209,33 @@
                     <h2>{{ card.title }}</h2>
                     {% for item in card.spotifyData %}
                         <div class="spotifyData">
-                            {{ forloop.counter }}. <a href="{{ item.url }}">{{ item.name }}</a>
+                              {% if item.image_url %}
+                                  <span class="track-index">{{ forloop.counter }}.</span>
+                                  <img class="cover-art" src="{{ item.image_url }}" alt="Cover art for {{ item.name }}" loading="lazy">
+                                  <div class="track-info">
+                                      <a class="spotify-track-title" href="{{ item.url }}" target ="_blank">{{ item.track_title|default:item.name }}</a>
+                                      {% if item.artist_name %}
+                                          <span class="spotify-track-artist">{{ item.artist_name }}</span>
+                                      {% endif %}
+                                  </div>
+                              {% else %}
+                                  {{ forloop.counter }}. <a href="{{ item.url }}" target ="_blank">{{ item.name }}</a>
+                              {% endif %}
                         </div>
                         <hr>
                     {% endfor %}
-                    <button class="view-button" type="button">View</button>
+                    {% if card.top50_url %}
+                        <a class="view-button" href="{{ card.top50_url }}">View Top 50</a>
+                    {% endif %}
                 </article>
             {% endfor %}
         </section>
+        <h2> Where is my listening time?</h2>
+        <p class="subtitle">Spotify currently does not make user listening time accessible through their API.
+        Any approach to get your listening time would require us to <strong>store and track</strong>
+        your account login information, and listening habits. For your information's safety,
+            we do not store any of your data.
+        </p>
     </main>
 </body>
 </html>
