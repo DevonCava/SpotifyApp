@@ -41,6 +41,9 @@ ENV/
 # Database
 db.sqlite3
 
+# Collected static files
+staticfiles/
+
 # pyc files
 *.pyc
 *.pyo
