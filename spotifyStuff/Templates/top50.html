@@ -16,39 +16,13 @@
             min-height: 100vh;
             overflow-x: hidden;
             background:
-                radial-gradient(circle at 10% 12%, rgba(29, 185, 84, 0.16), transparent 26%),
+                radial-gradient(circle at 10% 12%, rgb(61 103 39 / 0.79), transparent 26%),
                 radial-gradient(circle at 90% 16%, rgba(59, 130, 246, 0.14), transparent 24%),
-                radial-gradient(circle at 50% 96%, rgba(168, 85, 247, 0.12), transparent 30%),
+                radial-gradient(circle at 50% 96%, rgb(255 255 255 / 0.34), transparent 30%),
                 linear-gradient(135deg, #08090c 0%, #10131a 38%, #171824 70%, #0b1118 100%);
             color: #ffffff;
             padding: 48px 24px;
             box-sizing: border-box;
-        }
-
-        body::before,
-        body::after {
-            content: '';
-            position: fixed;
-            border-radius: 999px;
-            filter: blur(34px);
-            pointer-events: none;
-            opacity: 0.75;
-        }
-
-        body::before {
-            top: 6%;
-            left: -6%;
-            width: 32rem;
-            height: 32rem;
-            background: radial-gradient(circle, rgba(29, 185, 84, 0.18) 0%, rgba(29, 185, 84, 0) 72%);
-        }
-
-        body::after {
-            right: -10%;
-            bottom: 0;
-            width: 36rem;
-            height: 36rem;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.16) 0%, rgba(14, 165, 233, 0) 72%);
         }
 
         .hero {

@@ -19,37 +19,11 @@
 			justify-content: center;
 			overflow: hidden;
 			background:
-				radial-gradient(circle at top left, rgba(29, 185, 84, 0.22), transparent 32%),
+				radial-gradient(circle at top left, rgb(61 103 39 / 0.79), transparent 32%),
 				radial-gradient(circle at top right, rgba(37, 99, 235, 0.18), transparent 28%),
-				radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.16), transparent 30%),
+				radial-gradient(circle at bottom left, rgb(166 81 42 / 0.35), transparent 30%),
 				linear-gradient(135deg, #09090c 0%, #13131a 42%, #191622 72%, #0f1720 100%);
 			color: #ffffff;
-		}
-
-		body::before,
-		body::after {
-			content: '';
-			position: fixed;
-			border-radius: 999px;
-			filter: blur(28px);
-			pointer-events: none;
-			opacity: 0.8;
-		}
-
-		body::before {
-			top: 10%;
-			right: -8%;
-			width: 24rem;
-			height: 24rem;
-			background: radial-gradient(circle, rgba(29, 185, 84, 0.22) 0%, rgba(29, 185, 84, 0) 70%);
-		}
-
-		body::after {
-			left: -10%;
-			bottom: -8%;
-			width: 28rem;
-			height: 28rem;
-			background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, rgba(59, 130, 246, 0) 72%);
 		}
 
 		.hero {
